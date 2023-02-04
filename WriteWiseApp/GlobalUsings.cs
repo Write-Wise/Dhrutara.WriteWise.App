@@ -1,0 +1,10 @@
+﻿global using Microsoft.AppCenter;
+global using Microsoft.AppCenter.Analytics;
+global using Microsoft.AppCenter.Crashes;
+global using CommunityToolkit.Maui;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+global using WriteWiseApp.ViewModels;
+global using WriteWiseApp.Views;
+global using System.Diagnostics;
+global using System.Threading.Tasks;
