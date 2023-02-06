@@ -22,7 +22,7 @@ namespace WriteWiseApp.Auth
 
         internal async Task<UserContext?> SigninAsync(bool tryInteractiveLogin, CancellationToken cancellationToken)
         {
-            if (User == null)
+            if (User == null || !User.IsAccessTokenValid())
             {
                 AuthenticationResult? result = null;
 
@@ -82,8 +82,11 @@ namespace WriteWiseApp.Auth
             {
                 User = new()
                 {
-                    AccesToken= authResult.AccessToken,
-                    UserName = authResult.Account.Username
+                    AccountIdentifer = authResult.UniqueId ?? authResult.Account.HomeAccountId.Identifier,
+                    AccessToken = authResult.AccessToken,
+                    UserName = authResult.Account.Username,
+                    ExpiresOn = authResult.ExpiresOn,
+                    
                 };
 
                 string token = authResult.IdToken ?? string.Empty;
@@ -95,10 +98,11 @@ namespace WriteWiseApp.Auth
                     var claims = data?.Claims.ToList();
                     if (data?.Claims?.Any() == true)
                     {
-                        User.GivenName = data.Claims.FirstOrDefault(c => c.Type.Equals("given_name"))?.Value;
-                        User.FamilyName = data.Claims.FirstOrDefault(c => c.Type.Equals("family_name"))?.Value;
-                        string userEmails = data.Claims.FirstOrDefault(c => c.Value.Equals("emails"))?.Value??string.Empty;
+                        string userEmails = data.Claims.FirstOrDefault(c => c.Type.Equals("emails"))?.Value ?? string.Empty;
                         User.Email = userEmails.Split(',').FirstOrDefault();
+                        User.FamilyName = data.Claims.FirstOrDefault(c => c.Type.Equals("family_name"))?.Value;
+                        User.GivenName = data.Claims.FirstOrDefault(c => c.Type.Equals("given_name"))?.Value;
+                        User.UserName= data.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
                     }
                 }
             }

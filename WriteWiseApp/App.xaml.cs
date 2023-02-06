@@ -21,7 +21,13 @@ public partial class App : Application
 
         window.Created += async (s, e) =>
         {
-            _ = await _authService.SigninAsync(false, CancellationToken.None);
+            try
+            {
+                _ = await _authService.SigninAsync(false, CancellationToken.None);
+            }catch
+            {
+
+            }
         };
 
         return window;
