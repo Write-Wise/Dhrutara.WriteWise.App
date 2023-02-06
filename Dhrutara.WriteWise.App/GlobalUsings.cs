@@ -1,0 +1,11 @@
+﻿global using Microsoft.AppCenter;
+global using Microsoft.AppCenter.Analytics;
+global using Microsoft.AppCenter.Crashes;
+global using CommunityToolkit.Maui;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+global using Dhrutara.WriteWise.App.ViewModels;
+global using Dhrutara.WriteWise.App.Views;
+global using Dhrutara.WriteWise.App.Auth;
+global using System.Diagnostics;
+global using System.Threading.Tasks;
