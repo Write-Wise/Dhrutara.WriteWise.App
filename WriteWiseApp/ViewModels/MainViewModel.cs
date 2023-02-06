@@ -1,8 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using WriteWiseApp.Auth;
-
+﻿using WriteWiseApp.Auth;
 
 namespace WriteWiseApp.ViewModels;
 
@@ -26,41 +22,25 @@ public partial class MainViewModel : BaseViewModel
         }
         else
         {
-            await SignOutAsync(CancellationToken.None);
+            await SignOutAsync();
         }
 
     }
 
     private async Task SignInAsync(CancellationToken cancellationToken)
     {
-        AuthenticationResult? result = await _authService.SigninAsync(cancellationToken);
-
-        string token = result?.IdToken ?? string.Empty;
-
-        string message = string.Empty;
-
-        if (token != null)
+        UserContext? userContext = await _authService.SigninAsync(true, cancellationToken);
+        
+        if(userContext != null)
         {
-            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-            JwtSecurityToken data = handler.ReadJwtToken(token);
-            List<System.Security.Claims.Claim> claims = data.Claims.ToList();
-            if (data != null)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine($"Name: {data.Claims.FirstOrDefault(x => x.Type.Equals("name"))?.Value}");
-                stringBuilder.AppendLine($"Email: {data.Claims.FirstOrDefault(x => x.Type.Equals("preferred_username"))?.Value}");
-                message = stringBuilder.ToString();
-            }
+            Message = "Sign out";
+            SemanticScreenReader.Announce("Signed in");
         }
-
-        Message = "Sign out";
-
-        SemanticScreenReader.Announce("Signed in");
     }
 
-    private async Task SignOutAsync(CancellationToken cancellationToken)
+    private async Task SignOutAsync()
     {
-        await _authService.SignoutAsync(cancellationToken);
+        await _authService.SignoutAsync();
 
         Message = "Sign in";
         SemanticScreenReader.Announce("Signed out");

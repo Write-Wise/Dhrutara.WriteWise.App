@@ -1,9 +1,11 @@
 ﻿using Microsoft.Identity.Client;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace WriteWiseApp.Auth
 {
     public class AuthService
     {
+        private static UserContext? User { get; set; }
         private readonly IPublicClientApplication authenticationClient;
         public AuthService()
         {
@@ -18,45 +20,50 @@ namespace WriteWiseApp.Auth
                 .Build();
         }
 
-        public async Task<AuthenticationResult?> SigninAsync(CancellationToken cancellationToken)
+        internal async Task<UserContext?> SigninAsync(bool tryInteractiveLogin, CancellationToken cancellationToken)
         {
-            AuthenticationResult? result = null;
-
-            IEnumerable<IAccount> accounts = await authenticationClient.GetAccountsAsync(Constants.SignInPolicy).ConfigureAwait(false);
-            bool tryInteractive = false;
-
-            try
+            if (User == null || !User.IsAccessTokenValid())
             {
-                result = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault())
-                    .ExecuteAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (MsalUiRequiredException)
-            {
-                tryInteractive = true;
-            }
+                AuthenticationResult? result = null;
 
-            if (tryInteractive)
-            {
+                IEnumerable<IAccount> accounts = await authenticationClient.GetAccountsAsync(Constants.SignInPolicy).ConfigureAwait(false);
+                bool tryInteractive = false;
+
                 try
                 {
-                    result = await authenticationClient
-                        .AcquireTokenInteractive(Constants.Scopes)
-#if ANDROID
-                    .WithParentActivityOrWindow(Platform.CurrentActivity)
-#endif
-                        .ExecuteAsync(cancellationToken);
-
+                    result = await authenticationClient.AcquireTokenSilent(Constants.Scopes, accounts.FirstOrDefault())
+                        .ExecuteAsync(cancellationToken).ConfigureAwait(false);
                 }
-                catch (MsalClientException)
+                catch (MsalUiRequiredException)
                 {
-                    return null;
+                    tryInteractive = tryInteractiveLogin;
                 }
+
+                if (tryInteractive)
+                {
+                    try
+                    {
+                        result = await authenticationClient
+                            .AcquireTokenInteractive(Constants.Scopes)
+#if ANDROID
+                        .WithParentActivityOrWindow(Platform.CurrentActivity)
+#endif
+                            .ExecuteAsync(cancellationToken);
+
+                    }
+                    catch (MsalClientException)
+                    {
+                        return null;
+                    }
+                }
+
+                SetUser(result);
             }
 
-            return result;
+            return User;
         }
 
-        public async Task SignoutAsync(CancellationToken cancellationToken)
+        internal async Task SignoutAsync()
         {
             IEnumerable<IAccount> accounts = await authenticationClient.GetAccountsAsync().ConfigureAwait(false);
 
@@ -65,6 +72,38 @@ namespace WriteWiseApp.Auth
                 foreach(IAccount? account in accounts)
                 {
                     await authenticationClient.RemoveAsync(account).ConfigureAwait(false);
+                }
+            }
+        }
+
+        private static void SetUser(AuthenticationResult? authResult)
+        {
+            if (authResult != null)
+            {
+                User = new()
+                {
+                    AccountIdentifer = authResult.UniqueId ?? authResult.Account.HomeAccountId.Identifier,
+                    AccessToken = authResult.AccessToken,
+                    UserName = authResult.Account.Username,
+                    ExpiresOn = authResult.ExpiresOn,
+                    
+                };
+
+                string token = authResult.IdToken ?? string.Empty;
+
+                if (token != null)
+                {
+                    JwtSecurityTokenHandler handler = new();
+                    JwtSecurityToken data = handler.ReadJwtToken(token);
+                    var claims = data?.Claims.ToList();
+                    if (data?.Claims?.Any() == true)
+                    {
+                        string userEmails = data.Claims.FirstOrDefault(c => c.Type.Equals("emails"))?.Value ?? string.Empty;
+                        User.Email = userEmails.Split(',').FirstOrDefault();
+                        User.FamilyName = data.Claims.FirstOrDefault(c => c.Type.Equals("family_name"))?.Value;
+                        User.GivenName = data.Claims.FirstOrDefault(c => c.Type.Equals("given_name"))?.Value;
+                        User.UserName= data.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
+                    }
                 }
             }
         }
