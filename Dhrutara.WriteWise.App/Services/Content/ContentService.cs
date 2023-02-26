@@ -22,7 +22,7 @@ namespace Dhrutara.WriteWise.App.Services.Content
             };
 
             HttpResponseMessage apiResponse = await _httpClient
-                .PostAsJsonAsync("/getcontent", request, options, cancellationToken)
+                .PostAsJsonAsync("getcontent", request, options, cancellationToken)
                 .ConfigureAwait(false);
 
             if (apiResponse.IsSuccessStatusCode)

@@ -34,14 +34,12 @@
                     </Label>
                 </StackLayout>
             </ScrollView>
-            <ImageButton
-						Command="{Binding NewContentClickedCommand}"
-						HorizontalOptions="End">
+            <ImageButton Clicked="OnNewContentClicked"
+                         HorizontalOptions="End">
                 <ImageButton.Source>
                     <FileImageSource File="bird.png"/>
                 </ImageButton.Source>
             </ImageButton>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
