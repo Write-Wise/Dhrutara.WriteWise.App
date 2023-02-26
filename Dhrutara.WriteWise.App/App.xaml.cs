@@ -1,34 +1,36 @@
 ﻿
-namespace Dhrutara.WriteWise.App;
-
-public partial class App : Application
+namespace Dhrutara.WriteWise.App
 {
-    private readonly AuthService _authService;
-
-    public App(AuthService authService)
-	{
-        _authService = authService;
-
-		InitializeComponent();
-
-		MainPage = new AppShell();
-	}
-
-    protected override Window CreateWindow(IActivationState? activationState)
+    public partial class App : Application
     {
-        Window window = base.CreateWindow(activationState);
+        private readonly AuthService _authService;
 
-        window.Created += async (s, e) =>
+        public App(AuthService authService)
         {
-            try
-            {
-                _ = await _authService.SigninAsync(false, CancellationToken.None);
-            }catch
-            {
+            _authService = authService;
 
-            }
-        };
+            InitializeComponent();
 
-        return window;
+            MainPage = new AppShell();
+        }
+
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+            Window window = base.CreateWindow(activationState);
+
+            window.Created += async (s, e) =>
+            {
+                try
+                {
+                    _ = await _authService.SigninAsync(false, CancellationToken.None);
+                }
+                catch
+                {
+
+                }
+            };
+
+            return window;
+        }
     }
 }

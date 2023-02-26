@@ -1,6 +1,7 @@
-﻿namespace Dhrutara.WriteWise.App.ViewModels
+﻿
+namespace Dhrutara.WriteWise.App.ViewModels
 {
-    public partial class NewContentOptions 
+    public partial class ContentOptions 
     {
         public ContentType Type { get; set; }
         

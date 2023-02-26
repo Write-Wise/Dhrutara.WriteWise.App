@@ -1,34 +1,63 @@
 ﻿
-namespace Dhrutara.WriteWise.App;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using Dhrutara.WriteWise.App.Services.Content;
 
-public static class MauiProgram
+namespace Dhrutara.WriteWise.App
 {
-	public static MauiApp CreateMauiApp()
-	{
-        MauiAppBuilder builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.UseMauiCommunityToolkit()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+    public static class MauiProgram
+    {
+        public static MauiApp CreateMauiApp()
+        {
+            MauiAppBuilder builder = MauiApp.CreateBuilder();
+            builder
+                .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
+                .ConfigureFonts(fonts =>
+                {
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                });
 
-		builder.Services.AddSingleton<AuthService>();
+            builder.Services.AddOptions();
 
-		builder.Services.AddSingleton<MainViewModel>();
+            using Stream? configStream = Assembly
+                .GetExecutingAssembly()
+                .GetManifestResourceStream("Dhrutara.WriteWise.App.appsettings.json");
 
-		builder.Services.AddSingleton<MainPage>();
+            if (configStream != null)
+            {
+                var config = new ConfigurationBuilder()
+                .AddJsonStream(configStream)
+                .Build();
 
-		// TODO: Add App Center secrets
-		AppCenter.Start(
-			"windowsdesktop={Your Windows App secret here};" +
-			"android={Your Android App secret here};" +
-			"ios={Your iOS App secret here};" +
-			"macos={Your macOS App secret here};",
-			typeof(Analytics), typeof(Crashes));
+                _ = builder.Configuration.AddConfiguration(config);
+            }
 
-		return builder.Build();
-	}
+
+            builder.Services.AddSingleton<AuthService>();
+
+            _ = builder.Services.AddHttpClient<ContentService>(client =>
+            {
+                string? configuredUri = builder.Configuration.GetSection("Settings").GetSection("ContentApiUri").Value;
+                Uri? contenApiUri = Uri.TryCreate(configuredUri, UriKind.Absolute, out Uri? result) ? result : null;
+                client.BaseAddress = contenApiUri;
+            });
+
+            builder.Services.AddSingleton<MainViewModel>();
+
+            builder.Services.AddSingleton<MainPage>();
+
+            // TODO: Add App Center secrets
+            AppCenter.Start(
+                "windowsdesktop={Your Windows App secret here};" +
+                "android={Your Android App secret here};" +
+                "ios={Your iOS App secret here};" +
+                "macos={Your macOS App secret here};",
+                typeof(Analytics), typeof(Crashes));
+
+            return builder.Build();
+        }
+    }
 }

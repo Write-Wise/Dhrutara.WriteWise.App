@@ -1,4 +1,4 @@
-﻿namespace Dhrutara.WriteWise.App.Auth
+﻿namespace Dhrutara.WriteWise.App.Services.Auth
 {
     internal class AccessToken
     {
@@ -13,7 +13,7 @@
                 return false;
             }
 
-            long ticksBeforeExpires = (ExpiresOn-DateTimeOffset.UtcNow).Value.Ticks;
+            long ticksBeforeExpires = (ExpiresOn - DateTimeOffset.UtcNow).Value.Ticks;
 
             TimeSpan difference = new(ticksBeforeExpires);
 

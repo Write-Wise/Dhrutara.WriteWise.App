@@ -1,5 +1,4 @@
-﻿
-namespace Dhrutara.WriteWise.App
+﻿namespace Dhrutara.WriteWise.App.Models
 {
     public class EnumToType
     {
@@ -9,7 +8,7 @@ namespace Dhrutara.WriteWise.App
             Display = display;
         }
 
-        public EnumToType(Enum enumValue):this(enumValue.ToString(), enumValue.GetDisplayName())
+        public EnumToType(Enum enumValue) : this(enumValue.ToString(), enumValue.GetDisplayName())
         {
         }
         public string Name { get; set; }

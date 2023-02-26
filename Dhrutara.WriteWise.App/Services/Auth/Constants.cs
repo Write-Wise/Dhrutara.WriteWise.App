@@ -1,5 +1,4 @@
-﻿
-namespace Dhrutara.WriteWise.App.Auth
+﻿namespace Dhrutara.WriteWise.App.Services.Auth
 {
     public static class Constants
     {
