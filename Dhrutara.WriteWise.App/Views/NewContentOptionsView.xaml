@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="Dhrutara.WriteWise.App.Views.NewContentOptionsView">
+    <VerticalStackLayout
+        Margin="25"
+        Spacing="25"
+        Padding="30,30,30,10"
+        VerticalOptions="Center">
+
+        <Picker 
+            x:Name="pickerType"
+            Title="Select Type">
+        </Picker>
+
+        <Picker 
+            x:Name="pickerCategory"
+            Title="Select Category">
+        </Picker>
+
+        <Picker 
+            x:Name="pickerReceiverRelationship"
+            Title="Receiver relationship">
+        </Picker>
+
+        <Button 
+            Text="Done" 
+            Clicked="OnDoneClicked" />
+    </VerticalStackLayout>
+</toolkit:Popup>

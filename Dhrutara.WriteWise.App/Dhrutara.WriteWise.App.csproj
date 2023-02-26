@@ -63,6 +63,18 @@
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Views\NewContentOptionsView.xaml.cs">
+	    <DependentUpon>NewContentOptionsView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\NewContentOptionsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 	<PropertyGroup Label="MauiAppAccelerator">
 		<wizardVersion>v1.2.2</wizardVersion>
 		<projectType>MVVMToolkit</projectType>

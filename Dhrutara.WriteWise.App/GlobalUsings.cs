@@ -7,5 +7,6 @@ global using CommunityToolkit.Mvvm.Input;
 global using Dhrutara.WriteWise.App.ViewModels;
 global using Dhrutara.WriteWise.App.Views;
 global using Dhrutara.WriteWise.App.Auth;
+global using Dhrutara.WriteWise.App.ExtensionMethods;
 global using System.Diagnostics;
 global using System.Threading.Tasks;
