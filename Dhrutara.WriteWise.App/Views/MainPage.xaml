@@ -18,13 +18,13 @@
 				HorizontalOptions="Center" />
 
 			<Label
-				Text="Hello, there!"
+				Text="Hello, there! Welcome to Write wise!"
 				SemanticProperties.HeadingLevel="Level1"
 				FontSize="32"
 				HorizontalOptions="Center" />
 
 			<Label
-				Text="Welcome to Write wise!"
+				Text="{Binding Message}"
 				SemanticProperties.HeadingLevel="Level2"
 				SemanticProperties.Description="Welcome to Write wise!"
 				FontSize="18"
@@ -36,6 +36,14 @@
 				Command="{Binding SignInOutClickedCommand}"
 				HorizontalOptions="Center" />
 
-		</VerticalStackLayout>
+            <ImageButton
+						Command="{Binding NewContentClickedCommand}"
+						HorizontalOptions="End">
+                <ImageButton.Source>
+                    <FileImageSource File="bird.png"/>
+                </ImageButton.Source>
+            </ImageButton>
+
+        </VerticalStackLayout>
 	</ScrollView>
 </ContentPage>
