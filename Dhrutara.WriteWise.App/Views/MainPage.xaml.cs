@@ -23,6 +23,10 @@ namespace Dhrutara.WriteWise.App.Views
         private async void OnContentDoubleTapped(object sender, TappedEventArgs e)
         {
             await Task.Yield();
+            await Share.Default.RequestAsync(new ShareTextRequest { 
+                Text = _viewModel.Message,
+                Title = $"Share{_viewModel.NewContentOptions.Type.ToString()}"
+            });
         }
 
         private async void OnContentTapped(object sender, TappedEventArgs e)
