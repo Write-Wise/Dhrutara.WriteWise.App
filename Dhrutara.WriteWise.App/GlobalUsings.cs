@@ -3,7 +3,6 @@ global using Microsoft.AppCenter.Analytics;
 global using Microsoft.AppCenter.Crashes;
 global using CommunityToolkit.Maui;
 global using CommunityToolkit.Mvvm.ComponentModel;
-global using CommunityToolkit.Mvvm.Input;
 global using Dhrutara.WriteWise.App.Constants;
 global using Dhrutara.WriteWise.App.ViewModels;
 global using Dhrutara.WriteWise.App.Views;

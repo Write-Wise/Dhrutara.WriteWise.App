@@ -1,18 +1,9 @@
-﻿using CommunityToolkit.Maui.Views;
-
-namespace Dhrutara.WriteWise.App.ViewModels
+﻿namespace Dhrutara.WriteWise.App.ViewModels
 {
     public partial class MainViewModel : BaseViewModel
     {
-        static Page Page => Application.Current?.MainPage ?? throw new NullReferenceException();
-
-        private readonly AuthService _authService;
-        public MainViewModel(AuthService authService)
+        public MainViewModel()
         {
-            _authService = authService;
-
-            SignInAsync(CancellationToken.None).GetAwaiter().GetResult();
-
             newContentOptions ??= new ContentOptions
             {
                 Category = ContentCategory.None,
@@ -28,12 +19,11 @@ namespace Dhrutara.WriteWise.App.ViewModels
         public string message = string.Empty;
 
         [ObservableProperty]
-        public ContentOptions newContentOptions;
-
-        private async Task SignInAsync(CancellationToken cancellationToken)
+        public ContentOptions newContentOptions = new ContentOptions
         {
-            UserContext? userContext = await _authService.SigninAsync(true, cancellationToken);
-            WelcomeMessage = $"Hi {userContext?.GivenName ?? "there"}, welcome to Write Wise!";
-        }
+            Category = ContentCategory.None,
+            Type = ContentType.Message,
+            Receiver = Relationship.None
+        };
     }
 }

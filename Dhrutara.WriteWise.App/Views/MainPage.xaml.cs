@@ -7,12 +7,17 @@ namespace Dhrutara.WriteWise.App.Views
     {
         private readonly MainViewModel _viewModel;
         private readonly ContentService _contentService;
-        public MainPage(MainViewModel viewModel, ContentService contentService)
+        private readonly AuthService _authService;
+
+        public MainPage(MainViewModel viewModel, ContentService contentService, AuthService authService)
         {
             InitializeComponent();
             BindingContext = viewModel;
             _viewModel = viewModel;
             _contentService = contentService;
+            _authService = authService;
+
+            TrySignInAsync(CancellationToken.None).SafeFireAndForget();
         }
 
         private async void OnContentDoubleTapped(object sender, TappedEventArgs e)
@@ -27,7 +32,7 @@ namespace Dhrutara.WriteWise.App.Views
 
         private async void OnNewContentClicked(object sender, EventArgs e)
         {
-            NewContentOptionsView popup = new()
+            NewContentOptionsView popup = new(_viewModel.NewContentOptions)
             {
                 CanBeDismissedByTappingOutsideOfPopup = false,
                 Color = new Color(255, 255, 255)
@@ -52,7 +57,7 @@ namespace Dhrutara.WriteWise.App.Views
             _viewModel.Message = newMessage ?? "Something went wrong, please try again!";
         }
 
-        private async Task<string?> GetNewContentAsync(ContentOptions options, CancellationToken cancellationToken)
+        private Task<string?> GetNewContentAsync(ContentOptions options, CancellationToken cancellationToken)
         {
             ApiRequest request = new()
             {
@@ -61,7 +66,13 @@ namespace Dhrutara.WriteWise.App.Views
                 Type = options.Type
             };
 
-            return await _contentService.GetContentAsync(request, cancellationToken);
+            return _contentService.GetContentAsync(request, cancellationToken);
         }
-     }
+
+        private async Task TrySignInAsync(CancellationToken cancellationToken)
+        {
+            UserContext? userContext = await _authService.SigninAsync(true, cancellationToken);
+            _viewModel.WelcomeMessage = $"Hi {userContext?.GivenName ?? "there"}, welcome to Write Wise!";
+        }
+    }
 }

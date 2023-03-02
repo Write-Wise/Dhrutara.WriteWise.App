@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using Dhrutara.WriteWise.App.Services.Content;
 
 namespace Dhrutara.WriteWise.App
@@ -22,26 +21,26 @@ namespace Dhrutara.WriteWise.App
 
             builder.Services.AddOptions();
 
-            using Stream? configStream = Assembly
-                .GetExecutingAssembly()
-                .GetManifestResourceStream("Dhrutara.WriteWise.App.appsettings.json");
+            //using Stream? configStream = Assembly
+            //    .GetExecutingAssembly()
+            //    .GetManifestResourceStream("Dhrutara.WriteWise.App.appsettings.json");
 
-            if (configStream != null)
-            {
-                var config = new ConfigurationBuilder()
-                .AddJsonStream(configStream)
-                .Build();
+            //if (configStream != null)
+            //{
+            //    var config = new ConfigurationBuilder()
+            //    .AddJsonStream(configStream)
+            //    .Build();
 
-                _ = builder.Configuration.AddConfiguration(config);
-            }
+            //    _ = builder.Configuration.AddConfiguration(config);
+            //}
 
 
             builder.Services.AddSingleton<AuthService>();
 
             _ = builder.Services.AddHttpClient<ContentService>(client =>
             {
-                string? configuredUri = builder.Configuration.GetSection("Settings").GetSection("ContentApiUri").Value;
-                Uri? contenApiUri = Uri.TryCreate(configuredUri, UriKind.Absolute, out Uri? result) ? result : null;
+                //string? configuredUri = builder.Configuration.GetSection("Settings").GetSection("ContentApiUri").Value;
+                Uri? contenApiUri = Uri.TryCreate(Services.Content.Constants.ContentServiceBaseUrl, UriKind.Absolute, out Uri? result) ? result : null;
                 client.BaseAddress = contenApiUri;
             });
 

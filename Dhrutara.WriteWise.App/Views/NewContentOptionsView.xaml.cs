@@ -1,6 +1,5 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Maui.Views;
-using Dhrutara.WriteWise.App.Constants;
 using Dhrutara.WriteWise.App.Models;
 using System.Collections.ObjectModel;
 
@@ -12,9 +11,12 @@ namespace Dhrutara.WriteWise.App.Views
         private readonly ObservableCollection<EnumToType> _contentCategories;
         private readonly ObservableCollection<EnumToType> _receiverRelationships;
 
-        public NewContentOptionsView()
+        public NewContentOptionsView(ContentOptions options)
         {
             InitializeComponent();
+
+            Options = options;
+
             _contentTypes = GetEnumToTypes<ContentType>(true).ToObservableCollection();
             _contentCategories = GetEnumToTypes<ContentCategory>(true).ToObservableCollection();
             _receiverRelationships = GetEnumToTypes<Relationship>(true).ToObservableCollection();
@@ -25,6 +27,8 @@ namespace Dhrutara.WriteWise.App.Views
         public ObservableCollection<EnumToType> ContentTypes { get { return _contentTypes; } }
         public ObservableCollection<EnumToType> ContentCategories { get { return _contentCategories; } }
         public ObservableCollection<EnumToType> ReceiverRelationships { get { return _receiverRelationships; } }
+
+        public ContentOptions Options { get; set; } 
 
         private void OnDoneClicked(object sender, EventArgs e)
         {
@@ -46,12 +50,18 @@ namespace Dhrutara.WriteWise.App.Views
         {
             pickerType.ItemsSource = ContentTypes;
             pickerType.ItemDisplayBinding = new Binding("Display");
+            pickerType.SelectedItem = ContentTypes
+                .FirstOrDefault(t => t.Name.Equals(Options.Type.ToString()));
 
             pickerCategory.ItemsSource = ContentCategories;
             pickerCategory.ItemDisplayBinding = new Binding("Display");
+            pickerCategory.SelectedItem = ContentCategories
+                .FirstOrDefault(t => t.Name.Equals(Options.Category.ToString()));
 
             pickerReceiverRelationship.ItemsSource = ReceiverRelationships;
             pickerReceiverRelationship.ItemDisplayBinding = new Binding("Display");
+            pickerReceiverRelationship.SelectedItem = ReceiverRelationships
+                .FirstOrDefault(t => t.Name.Equals(Options.Receiver.ToString()));
         }
 
         public static IEnumerable<EnumToType> GetEnumToTypes<TEnum>(bool sort = false, bool sortDesc = false) where TEnum : Enum
