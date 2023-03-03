@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:Dhrutara.WriteWise.App.ViewModels"
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
 			 x:Class="Dhrutara.WriteWise.App.Views.MainPage"
 			 x:DataType="vm:MainViewModel">
 
@@ -40,6 +41,14 @@
                     <FileImageSource File="bird.png"/>
                 </ImageButton.Source>
             </ImageButton>
+
+            <controls:MTAdView  BackgroundColor="Transparent"
+                                    x:Name="myAds"
+                                    AdsId="ca-app-pub-3940256099942544/6300978111"
+                                    AdSize="AnchoredAdaptive"
+                                    IsVisible="true"
+                                    />
+            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

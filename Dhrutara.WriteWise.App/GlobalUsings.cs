@@ -10,3 +10,4 @@ global using Dhrutara.WriteWise.App.Services.Auth;
 global using Dhrutara.WriteWise.App.ExtensionMethods;
 global using System.Diagnostics;
 global using System.Threading.Tasks;
+global using Plugin.MauiMTAdmob.Controls;

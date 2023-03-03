@@ -66,6 +66,7 @@
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.Identity.Client" Version="4.49.1" />
+	  <PackageReference Include="Plugin.MauiMTAdmob" Version="1.0.2" />
 	  <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
 	</ItemGroup>
@@ -84,7 +85,12 @@
 
 	<ItemGroup>
 	  <Folder Include="Helpers\" />
+	  <Folder Include="Dependencies\" />
 	</ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+    <AndroidLibrary Include="Dependencies\user-messaging-platform-2.0.0.aar" Bind="false" />
+  </ItemGroup>
 
 	<PropertyGroup Label="MauiAppAccelerator">
 		<wizardVersion>v1.2.2</wizardVersion>

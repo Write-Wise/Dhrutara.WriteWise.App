@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using Dhrutara.WriteWise.App.Services.Content;
+using Plugin.MauiMTAdmob;
 
 namespace Dhrutara.WriteWise.App
 {
@@ -12,6 +13,7 @@ namespace Dhrutara.WriteWise.App
             MauiAppBuilder builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiMTAdmob()
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
