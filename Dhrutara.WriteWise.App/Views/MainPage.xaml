@@ -5,45 +5,41 @@
 			 x:Class="Dhrutara.WriteWise.App.Views.MainPage"
 			 x:DataType="vm:MainViewModel">
 
-	<ScrollView>
-		<VerticalStackLayout
+    <ScrollView>
+        <VerticalStackLayout
 			Spacing="25"
 			Padding="30,0"
 			VerticalOptions="Center">
 
-			<Image
-				Source="bird.png"
-				SemanticProperties.Description="Cute dot net bot waving hi to you!"
-				HeightRequest="200"
+            <Label
+				Text="{Binding WelcomeMessage}"
+				SemanticProperties.HeadingLevel="Level4"
+                SemanticProperties.Description="{Binding WelcomeMessage}"
+				FontSize="Medium"
 				HorizontalOptions="Center" />
 
-			<Label
-				Text="Hello, there! Welcome to Write wise!"
-				SemanticProperties.HeadingLevel="Level1"
-				FontSize="32"
-				HorizontalOptions="Center" />
-
-			<Label
-				Text="{Binding Message}"
-				SemanticProperties.HeadingLevel="Level2"
-				SemanticProperties.Description="Welcome to Write wise!"
-				FontSize="18"
-				HorizontalOptions="Center" />
-
-			<Button
-				Text="{Binding Message}"
-				SemanticProperties.Hint="Signs in our out the user"
-				Command="{Binding SignInOutClickedCommand}"
-				HorizontalOptions="Center" />
-
-            <ImageButton
-						Command="{Binding NewContentClickedCommand}"
-						HorizontalOptions="End">
+            <ScrollView MaximumHeightRequest="250">
+                <StackLayout>
+                    <Label Text="{Binding Message}"
+                           SemanticProperties.HeadingLevel="Level3"
+                           SemanticProperties.Description="The content generated for the user."
+                           FontSize="Medium"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="FillAndExpand"
+                           Padding="5,5,5,5">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnContentDoubleTapped"/>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnContentTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </ScrollView>
+            <ImageButton Clicked="OnNewContentClicked"
+                         HorizontalOptions="End">
                 <ImageButton.Source>
                     <FileImageSource File="bird.png"/>
                 </ImageButton.Source>
             </ImageButton>
-
         </VerticalStackLayout>
-	</ScrollView>
+    </ScrollView>
 </ContentPage>

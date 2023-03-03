@@ -1,9 +1,10 @@
-﻿namespace Dhrutara.WriteWise.App;
-
-public partial class AppShell : Shell
+﻿namespace Dhrutara.WriteWise.App
 {
-	public AppShell()
-	{
-		InitializeComponent();
-	}
+    public partial class AppShell : Shell
+    {
+        public AppShell()
+        {
+            InitializeComponent();
+        }
+    }
 }

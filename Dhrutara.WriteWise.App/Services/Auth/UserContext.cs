@@ -1,4 +1,4 @@
-﻿namespace Dhrutara.WriteWise.App.Auth
+﻿namespace Dhrutara.WriteWise.App.Services.Auth
 {
     internal class UserContext
     {

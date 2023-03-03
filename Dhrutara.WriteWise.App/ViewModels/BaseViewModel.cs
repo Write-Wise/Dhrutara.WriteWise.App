@@ -1,5 +1,6 @@
-﻿namespace Dhrutara.WriteWise.App.ViewModels;
-
-public partial class BaseViewModel : ObservableObject
+﻿namespace Dhrutara.WriteWise.App.ViewModels
 {
+    public partial class BaseViewModel : ObservableObject
+    {
+    }
 }

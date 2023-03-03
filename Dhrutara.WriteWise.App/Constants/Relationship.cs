@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Dhrutara.WriteWise.App
+namespace Dhrutara.WriteWise.App.Constants
 {
     public enum Relationship
     {
