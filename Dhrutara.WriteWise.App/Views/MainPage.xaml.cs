@@ -57,11 +57,15 @@ namespace Dhrutara.WriteWise.App.Views
 
         private async Task ShowNewContentAsync(ContentOptions options)
         {
-            string? newMessage = await GetNewContentAsync(options, CancellationToken.None);
+            string[] contentLines = await GetNewContentAsync(options, CancellationToken.None);
+            string? newMessage = contentLines.Any()
+                ? contentLines.Aggregate((l, r) => $"{l}{Environment.NewLine}{r}")
+                : null;
+
             _viewModel.Message = newMessage ?? "Something went wrong, please try again!";
         }
 
-        private Task<string?> GetNewContentAsync(ContentOptions options, CancellationToken cancellationToken)
+        private Task<string[]> GetNewContentAsync(ContentOptions options, CancellationToken cancellationToken)
         {
             ApiRequest request = new()
             {

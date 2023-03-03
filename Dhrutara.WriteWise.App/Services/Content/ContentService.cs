@@ -13,7 +13,7 @@ namespace Dhrutara.WriteWise.App.Services.Content
             _httpClient = httpClient;
         }
 
-        public async Task<string?> GetContentAsync(ApiRequest request, CancellationToken cancellationToken)
+        public async Task<string[]> GetContentAsync(ApiRequest request, CancellationToken cancellationToken)
         {
             JsonSerializerOptions options = new()
             {
@@ -36,10 +36,10 @@ namespace Dhrutara.WriteWise.App.Services.Content
                     .DeserializeAsync<ApiResponse>(resultContent,options, cancellationToken)
                     .ConfigureAwait(false);
 
-                return response?.Content;
+                return response?.Content??Array.Empty<string>();
             }
 
-            return null;
+            return Array.Empty<string>();
         }
 
         private class LowerCaseNamingPolicy : JsonNamingPolicy
