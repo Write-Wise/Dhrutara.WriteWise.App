@@ -19,7 +19,7 @@
         public string message = "Tap here to get started";
 
         [ObservableProperty]
-        public ContentOptions newContentOptions = new ContentOptions
+        public ContentOptions newContentOptions = new()
         {
             Category = ContentCategory.None,
             Type = ContentType.Message,

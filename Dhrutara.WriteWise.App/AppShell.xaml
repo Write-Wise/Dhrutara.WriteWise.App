@@ -13,4 +13,14 @@
 		ContentTemplate="{DataTemplate views:MainPage}"
 		Route="MainPage" />
 
+
+    <MenuItem Text="Privacy Policy"
+              Clicked="MenuPrivacyPolicy_Clicked"/>
+
+    <MenuItem Text="Terms of Service"
+              Clicked="MenuTermsOfService_Clicked"/>
+
+    <MenuItem Text="User Data Deletion"
+              Clicked="MenuUserDataDeletion_Clicked"/>
+
 </Shell>

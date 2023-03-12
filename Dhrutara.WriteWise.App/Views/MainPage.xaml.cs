@@ -66,19 +66,6 @@ namespace Dhrutara.WriteWise.App.Views
             }
         }
 
-        private Popup ShowContentLoadingPopup()
-        {
-            ContentLoading popup = new()
-            {
-                CanBeDismissedByTappingOutsideOfPopup = false,
-                Color = new Color(255, 255, 255)
-            };
-
-            this.ShowPopupAsync(popup).SafeFireAndForget();
-
-            return popup;
-        }
-
         private async Task ShowNewContentAsync(ContentOptions options)
         {
             Popup popup = PageUtilities.ShowContentLoadingPopup(this);
