@@ -16,7 +16,7 @@
         public string welcomeMessage = string.Empty;
 
         [ObservableProperty]
-        public string message = "Tap hereto get started";
+        public string message = "Tap here to get started";
 
         [ObservableProperty]
         public ContentOptions newContentOptions = new ContentOptions

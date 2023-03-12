@@ -32,6 +32,8 @@
                         BackgroundColor="Transparent">
 
             <toolkit:DockLayout x:Name="innerDockLayout">
+                
+
                 <HorizontalStackLayout x:Name="gestureLegend" 
                                        toolkit:DockLayout.DockPosition="Top">
                     <HorizontalStackLayout>
@@ -62,7 +64,7 @@
                            HorizontalOptions="FillAndExpand"
                            VerticalTextAlignment="Start"
                            HorizontalTextAlignment="Start"
-                           Padding="15,0">
+                           Padding="15,15">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnContentDoubleTapped"/>
                             <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnContentTapped"/>

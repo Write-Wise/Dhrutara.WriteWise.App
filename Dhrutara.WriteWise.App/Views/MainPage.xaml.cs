@@ -1,5 +1,4 @@
 ﻿using Dhrutara.WriteWise.App.Services.Content;
-using CommunityToolkit.Maui.Views;
 
 namespace Dhrutara.WriteWise.App.Views
 {
@@ -30,7 +29,7 @@ namespace Dhrutara.WriteWise.App.Views
 
         private async void OnContentTapped(object sender, TappedEventArgs e)
         {
-            if(_viewModel.EnableContentRefresh)
+            if (_viewModel.EnableContentRefresh)
             {
                 await ShowNewContentAsync(_viewModel.NewContentOptions);
             }
@@ -67,8 +66,23 @@ namespace Dhrutara.WriteWise.App.Views
             }
         }
 
+        private Popup ShowContentLoadingPopup()
+        {
+            ContentLoading popup = new()
+            {
+                CanBeDismissedByTappingOutsideOfPopup = false,
+                Color = new Color(255, 255, 255)
+            };
+
+            this.ShowPopupAsync(popup).SafeFireAndForget();
+
+            return popup;
+        }
+
         private async Task ShowNewContentAsync(ContentOptions options)
         {
+            Popup popup = PageUtilities.ShowContentLoadingPopup(this);
+            
             string[] contentLines = await GetNewContentAsync(options, CancellationToken.None);
             string? newMessage = contentLines.Any()
                 ? contentLines.Aggregate((l, r) => $"{l}{Environment.NewLine}{r}")
@@ -76,6 +90,8 @@ namespace Dhrutara.WriteWise.App.Views
 
             _viewModel.Message = newMessage ?? "Something went wrong, please try again!";
             _viewModel.EnableContentRefresh = !string.IsNullOrEmpty(_viewModel.Message);
+
+            PageUtilities.CloseContentLoadingPopup(popup);
         }
 
         private Task<string[]> GetNewContentAsync(ContentOptions options, CancellationToken cancellationToken)

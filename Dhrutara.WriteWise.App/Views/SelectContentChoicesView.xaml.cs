@@ -1,6 +1,3 @@
-using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Maui.Views;
-using Dhrutara.WriteWise.App.Models;
 using System.Collections.ObjectModel;
 
 namespace Dhrutara.WriteWise.App.Views
