@@ -6,10 +6,11 @@
 	xmlns:views="clr-namespace:Dhrutara.WriteWise.App.Views"
 	xmlns:local="clr-namespace:Dhrutara.WriteWise.App">
 
-	<ShellContent
+    <ShellContent
 		Shell.NavBarIsVisible="true"
 		Title="Write Wise"
 		Icon="bird.png"
 		ContentTemplate="{DataTemplate views:MainPage}"
 		Route="MainPage" />
+
 </Shell>

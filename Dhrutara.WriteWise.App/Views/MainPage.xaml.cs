@@ -22,21 +22,33 @@ namespace Dhrutara.WriteWise.App.Views
 
         private async void OnContentDoubleTapped(object sender, TappedEventArgs e)
         {
-            await Task.Yield();
             await Share.Default.RequestAsync(new ShareTextRequest { 
                 Text = _viewModel.Message,
-                Title = $"Share{_viewModel.NewContentOptions.Type.ToString()}"
+                Title = $"Share{_viewModel.NewContentOptions.Type}"
             });
         }
 
         private async void OnContentTapped(object sender, TappedEventArgs e)
         {
-            await ShowNewContentAsync(_viewModel.NewContentOptions);
+            if(_viewModel.EnableContentRefresh)
+            {
+                await ShowNewContentAsync(_viewModel.NewContentOptions);
+            }
+            else
+            {
+                await ShowContentChoicesPopupAsync();
+            }
+            
         }
 
-        private async void OnNewContentClicked(object sender, EventArgs e)
+        private async void OnSelectContentChoicesClicked(object sender, EventArgs e)
         {
-            NewContentOptionsView popup = new(_viewModel.NewContentOptions)
+            await ShowContentChoicesPopupAsync();
+        }
+
+        private async Task ShowContentChoicesPopupAsync()
+        {
+            SelectContentChoicesView popup = new(_viewModel.NewContentOptions)
             {
                 CanBeDismissedByTappingOutsideOfPopup = false,
                 Color = new Color(255, 255, 255)
@@ -63,6 +75,7 @@ namespace Dhrutara.WriteWise.App.Views
                 : null;
 
             _viewModel.Message = newMessage ?? "Something went wrong, please try again!";
+            _viewModel.EnableContentRefresh = !string.IsNullOrEmpty(_viewModel.Message);
         }
 
         private Task<string[]> GetNewContentAsync(ContentOptions options, CancellationToken cancellationToken)

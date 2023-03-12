@@ -16,7 +16,7 @@
         public string welcomeMessage = string.Empty;
 
         [ObservableProperty]
-        public string message = string.Empty;
+        public string message = "Tap hereto get started";
 
         [ObservableProperty]
         public ContentOptions newContentOptions = new ContentOptions
@@ -25,5 +25,8 @@
             Type = ContentType.Message,
             Receiver = Relationship.None
         };
+
+        [ObservableProperty]
+        public bool enableContentRefresh = false;
     }
 }

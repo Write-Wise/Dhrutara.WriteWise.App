@@ -2,44 +2,75 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:Dhrutara.WriteWise.App.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
 			 x:Class="Dhrutara.WriteWise.App.Views.MainPage"
 			 x:DataType="vm:MainViewModel">
 
-    <ScrollView>
-        <VerticalStackLayout
-			Spacing="25"
-			Padding="30,0"
-			VerticalOptions="Center">
+    <toolkit:DockLayout x:Name="outerDockLayout">
+        <Label x:Name="topBannerAd"
+               toolkit:DockLayout.DockPosition="Top"
+               BackgroundColor="Yellow"
+               HorizontalOptions="FillAndExpand"
+               MinimumHeightRequest="60"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               Text="Top banner ad"/>
 
-            <Label
-				Text="{Binding WelcomeMessage}"
-				SemanticProperties.HeadingLevel="Level4"
-                SemanticProperties.Description="{Binding WelcomeMessage}"
-				FontSize="Medium"
-				HorizontalOptions="Center" />
+        <Label x:Name="bottomBannerAd" 
+               toolkit:DockLayout.DockPosition="Bottom"
+               BackgroundColor="Yellow"
+               HorizontalOptions="FillAndExpand"
+               MinimumHeightRequest="60"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               Text="Bottom banner ad"/>
 
-            <ScrollView MaximumHeightRequest="250">
-                <StackLayout>
+
+        <ScrollView x:Name="topScrollView"
+                        Padding="10,0,10,0"
+                        Margin="0,25,0,25"
+                        BackgroundColor="Transparent">
+
+            <toolkit:DockLayout x:Name="innerDockLayout">
+                <HorizontalStackLayout x:Name="gestureLegend" 
+                                       toolkit:DockLayout.DockPosition="Top">
+                    <HorizontalStackLayout>
+                        <Image Source="single_tap_35_35.png" />
+                        <Label Text=" New: 1 Tap" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Padding="25,0,0,0">
+                        <Image Source="double_tap_35_35.png" />
+                        <Label Text=" Share: 2 Taps" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </HorizontalStackLayout>
+
+                <ImageButton x:Name="changeContentChoice"
+                             toolkit:DockLayout.DockPosition="Bottom"
+                             Source="bird.png"
+                             HorizontalOptions="Center"
+                             Clicked="OnSelectContentChoicesClicked">
+                </ImageButton>
+
+                <ScrollView x:Name="messageScrollView"
+                            MaximumHeightRequest="250"
+                            Margin="10">
                     <Label Text="{Binding Message}"
                            SemanticProperties.HeadingLevel="Level3"
                            SemanticProperties.Description="The content generated for the user."
                            FontSize="Medium"
                            HorizontalOptions="FillAndExpand"
-                           VerticalOptions="FillAndExpand"
-                           Padding="5,5,5,5">
+                           VerticalTextAlignment="Start"
+                           HorizontalTextAlignment="Start"
+                           Padding="15,0">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnContentDoubleTapped"/>
                             <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnContentTapped"/>
                         </Label.GestureRecognizers>
                     </Label>
-                </StackLayout>
-            </ScrollView>
-            <ImageButton Clicked="OnNewContentClicked"
-                         HorizontalOptions="End">
-                <ImageButton.Source>
-                    <FileImageSource File="bird.png"/>
-                </ImageButton.Source>
-            </ImageButton>
-        </VerticalStackLayout>
-    </ScrollView>
+                </ScrollView>
+            </toolkit:DockLayout>
+        </ScrollView>
+    </toolkit:DockLayout>
+
 </ContentPage>
