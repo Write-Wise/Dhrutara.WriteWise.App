@@ -1,17 +1,14 @@
-using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Maui.Views;
-using Dhrutara.WriteWise.App.Models;
 using System.Collections.ObjectModel;
 
 namespace Dhrutara.WriteWise.App.Views
 {
-    public partial class NewContentOptionsView : Popup
+    public partial class SelectContentChoicesView : Popup
     {
         private readonly ObservableCollection<EnumToType> _contentTypes;
         private readonly ObservableCollection<EnumToType> _contentCategories;
         private readonly ObservableCollection<EnumToType> _receiverRelationships;
 
-        public NewContentOptionsView(ContentOptions options)
+        public SelectContentChoicesView(ContentOptions options)
         {
             InitializeComponent();
 

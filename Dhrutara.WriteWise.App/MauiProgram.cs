@@ -1,7 +1,4 @@
-﻿
-using Microsoft.Extensions.Configuration;
-using System.Reflection;
-using Dhrutara.WriteWise.App.Services.Content;
+﻿using Dhrutara.WriteWise.App.Services.Content;
 
 namespace Dhrutara.WriteWise.App
 {

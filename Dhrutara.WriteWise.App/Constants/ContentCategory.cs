@@ -10,9 +10,9 @@ namespace Dhrutara.WriteWise.App.Constants
         Wedding = 3,
         [Display(Name = "Wedding anniversary")]
         WeddingAnniversary = 4,
-        [Display(Name = "Death condolence")]
-        DeathCondolence = 5,
+        Condolence = 5,
         Promotion = 6,
+        [Display(Name = "New Job")]
         NewJob = 7,
     }
 }

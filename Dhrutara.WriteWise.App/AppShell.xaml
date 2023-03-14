@@ -6,10 +6,21 @@
 	xmlns:views="clr-namespace:Dhrutara.WriteWise.App.Views"
 	xmlns:local="clr-namespace:Dhrutara.WriteWise.App">
 
-	<ShellContent
+    <ShellContent
 		Shell.NavBarIsVisible="true"
 		Title="Write Wise"
 		Icon="bird.png"
 		ContentTemplate="{DataTemplate views:MainPage}"
 		Route="MainPage" />
+
+
+    <MenuItem Text="Privacy Policy"
+              Clicked="MenuPrivacyPolicy_Clicked"/>
+
+    <MenuItem Text="Terms of Service"
+              Clicked="MenuTermsOfService_Clicked"/>
+
+    <MenuItem Text="User Data Deletion"
+              Clicked="MenuUserDataDeletion_Clicked"/>
+
 </Shell>
