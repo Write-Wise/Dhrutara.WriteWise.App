@@ -11,20 +11,17 @@ namespace Dhrutara.WriteWise.App
 
         private async void MenuPrivacyPolicy_Clicked(object? sender, EventArgs e)
         {
-            //await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewiseweb.dhrutara.net/privacy-policy/"));
-            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewiseweb.dhrutara.net/"));
+            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/privacy-policy/"));
         }
 
         private async void MenuTermsOfService_Clicked(object? sender, EventArgs e)
         {
-            //await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewiseweb.dhrutara.net/terms-of-service/"));
-            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewiseweb.dhrutara.net/"));
+            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/terms-of-service/"));
         }
 
         private async void MenuUserDataDeletion_Clicked(object? sender, EventArgs e)
         {
-            //await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewiseweb.dhrutara.net/user-data-deletion/"));
-            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewiseweb.dhrutara.net/"));
+            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/user-data-deletion/"));
         }
 
         private static async Task OpenUrlInBrowserAsync(Uri url)
