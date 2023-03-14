@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-
-namespace Dhrutara.WriteWise.App
+﻿namespace Dhrutara.WriteWise.App
 {
     public partial class AppShell : Shell
     {
