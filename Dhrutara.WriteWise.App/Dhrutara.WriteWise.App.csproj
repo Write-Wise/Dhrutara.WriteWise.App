@@ -90,6 +90,10 @@
 	  <Folder Include="Helpers\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Dhrutara.WriteWise.App.Providers\Dhrutara.WriteWise.App.Providers.csproj" />
+	</ItemGroup>
+
 	<PropertyGroup Label="MauiAppAccelerator">
 		<wizardVersion>v1.2.2</wizardVersion>
 		<projectType>MVVMToolkit</projectType>
