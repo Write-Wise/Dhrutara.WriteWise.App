@@ -1,26 +1,23 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Shell
+    x:Name="shell"
 	x:Class="Dhrutara.WriteWise.App.AppShell"
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:views="clr-namespace:Dhrutara.WriteWise.App.Views"
-	xmlns:local="clr-namespace:Dhrutara.WriteWise.App">
+	xmlns:local="clr-namespace:Dhrutara.WriteWise.App"
+    FlyoutHeaderBehavior="CollapseOnScroll">
 
     <ShellContent
 		Shell.NavBarIsVisible="true"
+        Shell.FlyoutItemIsVisible="True"
 		Title="Write Wise"
 		Icon="bird.png"
 		ContentTemplate="{DataTemplate views:MainPage}"
 		Route="MainPage" />
 
+    
 
-    <MenuItem Text="Privacy Policy"
-              Clicked="MenuPrivacyPolicy_Clicked"/>
-
-    <MenuItem Text="Terms of Service"
-              Clicked="MenuTermsOfService_Clicked"/>
-
-    <MenuItem Text="User Data Deletion"
-              Clicked="MenuUserDataDeletion_Clicked"/>
+    
 
 </Shell>
