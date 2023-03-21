@@ -6,9 +6,11 @@
 
     <Image x:Name="contentLoadingImage"
            Source="loading.gif" 
-           HorizontalOptions="StartAndExpand"
-           VerticalOptions="StartAndExpand"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"
            IsAnimationPlaying="False"
+           WidthRequest="100"
+           HeightRequest="100"
            BackgroundColor="Transparent"/>
 
 </toolkit:Popup>

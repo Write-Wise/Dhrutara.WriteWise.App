@@ -12,7 +12,7 @@
 		Shell.NavBarIsVisible="true"
         Shell.FlyoutItemIsVisible="True"
 		Title="Write Wise"
-		Icon="bird.png"
+		Icon="appicon.png"
 		ContentTemplate="{DataTemplate views:MainPage}"
 		Route="MainPage" />
 

@@ -49,7 +49,7 @@
 
                 <ImageButton x:Name="changeContentChoice"
                              toolkit:DockLayout.DockPosition="Bottom"
-                             Source="bird.png"
+                             Source="feather_60_60.png"
                              HorizontalOptions="Center"
                              Clicked="OnSelectContentChoicesClicked">
                 </ImageButton>
