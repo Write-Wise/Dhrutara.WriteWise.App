@@ -16,13 +16,23 @@ namespace Dhrutara.WriteWise.App.Services.Content
 
         public async Task<string[]> GetContentAsync(ApiRequest request, CancellationToken cancellationToken)
         {
+            UserContext? user = await _authService.SigninAsync(false, cancellationToken).ConfigureAwait(false);
+            if(user != null) {
+                return await GetContentFromServerAsync(request, user, cancellationToken).ConfigureAwait(false);
+            }
+            else
+            {
+                return await GetLocalContentAsync(request, cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        private async Task<string[]> GetContentFromServerAsync(ApiRequest request, UserContext user, CancellationToken cancellationToken)
+        {
             JsonSerializerOptions options = new()
             {
                 PropertyNamingPolicy = new LowerCaseNamingPolicy(),
                 WriteIndented = true,
             };
-
-            UserContext? user = await _authService.SigninAsync(true, cancellationToken).ConfigureAwait(false);
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Authorization", $"Bearer {user?.AccessToken}");
 
@@ -33,17 +43,23 @@ namespace Dhrutara.WriteWise.App.Services.Content
             if (apiResponse.IsSuccessStatusCode)
             {
                 Stream resultContent = await apiResponse
-                    .Content
+                .Content
                     .ReadAsStreamAsync(cancellationToken)
                     .ConfigureAwait(false);
 
                 ApiResponse? response = await JsonSerializer
-                    .DeserializeAsync<ApiResponse>(resultContent,options, cancellationToken)
+                    .DeserializeAsync<ApiResponse>(resultContent, options, cancellationToken)
                     .ConfigureAwait(false);
 
-                return response?.Content??Array.Empty<string>();
+                return response?.Content ?? Array.Empty<string>();
             }
 
+            return Array.Empty<string>();
+        }
+
+        private async Task<string[]> GetLocalContentAsync(ApiRequest request, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
             return Array.Empty<string>();
         }
 

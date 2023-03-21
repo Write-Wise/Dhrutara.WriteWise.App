@@ -11,7 +11,7 @@ namespace Dhrutara.WriteWise.App
 
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = new AppShell(authService);
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
