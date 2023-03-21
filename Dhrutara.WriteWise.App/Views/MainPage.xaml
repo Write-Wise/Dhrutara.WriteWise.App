@@ -9,21 +9,21 @@
     <toolkit:DockLayout x:Name="outerDockLayout">
         <Label x:Name="topBannerAd"
                toolkit:DockLayout.DockPosition="Top"
-               BackgroundColor="Yellow"
+               BackgroundColor="Transparent"
                HorizontalOptions="FillAndExpand"
                MinimumHeightRequest="60"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
-               Text="Top banner ad"/>
+               Text=""/>
 
         <Label x:Name="bottomBannerAd" 
                toolkit:DockLayout.DockPosition="Bottom"
-               BackgroundColor="Yellow"
+               BackgroundColor="#E87121"
                HorizontalOptions="FillAndExpand"
                MinimumHeightRequest="60"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
-               Text="Bottom banner ad"/>
+               Text=""/>
 
 
         <ScrollView x:Name="topScrollView"
