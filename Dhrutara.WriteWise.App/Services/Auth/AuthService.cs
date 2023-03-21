@@ -60,7 +60,7 @@ public class AuthService
             SetUser(result);
         }
 
-        return User;
+return User;
     }
 
     internal async Task SignoutAsync()
@@ -74,6 +74,13 @@ public class AuthService
                 await authenticationClient.RemoveAsync(account).ConfigureAwait(false);
             }
         }
+
+        ClearUser();
+    }
+
+    internal async Task DeleteUserAccountAsync()
+    {
+        await Task.Yield();
     }
 
     private static void SetUser(AuthenticationResult? authResult)
@@ -106,5 +113,10 @@ public class AuthService
                 }
             }
         }
+    }
+
+    private static void ClearUser()
+    {
+        User = null;
     }
 }

@@ -95,7 +95,7 @@ namespace Dhrutara.WriteWise.App.Views
 
         private async Task TrySignInAsync(CancellationToken cancellationToken)
         {
-            UserContext? userContext = await _authService.SigninAsync(true, cancellationToken);
+            UserContext? userContext = await _authService.SigninAsync(false, cancellationToken);
             _viewModel.WelcomeMessage = $"Hi {userContext?.GivenName ?? "there"}, welcome to Write Wise!";
         }
     }
