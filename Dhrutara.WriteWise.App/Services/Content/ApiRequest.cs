@@ -7,6 +7,6 @@ namespace Dhrutara.WriteWise.App.Services.Content
 
         public ContentType Type { get; set; }
 
-        public Relationship? From { get; set; }
+        public Relationship? To { get; set; }
     }
 }

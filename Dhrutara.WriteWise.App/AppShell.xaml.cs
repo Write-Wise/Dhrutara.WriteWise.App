@@ -14,37 +14,35 @@
         {
             _authService = authService;
             InitializeComponent();
-            BuildMenuItemsAsync().GetAwaiter().GetResult();
+            BuildMenuItemsAsync().SafeFireAndForget();
         }
-
 
         private async void MenuPrivacyPolicy_Clicked(object? sender, EventArgs e)
         {
-            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/privacy-policy/"));
+            await OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/privacy-policy/"));
         }
-
 
         private async void Testing_clicked(object? sender, EventArgs e)
         {
-            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/terms-of-service/"));
+            await OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/terms-of-service/"));
         }
 
         private async void MenuTermsOfService_Clicked(object? sender, EventArgs e)
         {
-            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/terms-of-service/"));
+            await OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/terms-of-service/"));
         }
 
         private async void MenuUserDataDeletion_Clicked(object? sender, EventArgs e)
         {
-            await AppShell.OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/user-data-deletion/"));
+            await OpenUrlInBrowserAsync(new Uri("https://writewise.dhrutara.net/user-data-deletion/"));
         }
 
         private async void MenuSignout_Clicked(object? sender, EventArgs e)
         {
-            bool answer = await DisplayAlert("Sign out confirmation", "Are you sure you want to sign out Write Wise?", "Yes", "No");
+            bool answer = await DisplayAlert("Sign out confirmation", "Are you sure you want to sign out of Write Wise?", "Yes", "No");
             if (answer)
             {
-                Shell.Current.FlyoutIsPresented = false;
+                shell.FlyoutIsPresented = false;
                 await _authService.SignoutAsync();
                 await BuildMenuItemsAsync();
             }
@@ -52,7 +50,7 @@
 
         private async void MenuSignInorUp_Clicked(object? sender, EventArgs e)
         {
-            Shell.Current.FlyoutIsPresented = false;
+            shell.FlyoutIsPresented = false;
             await _authService.SigninAsync(true, CancellationToken.None);
             await BuildMenuItemsAsync();
         }
@@ -62,7 +60,7 @@
             bool answer = await DisplayAlert("Account deletion confirmation", "Are you sure you want to delete your Write Wise accuont?", "Yes", "No");
             if (answer)
             {
-                Shell.Current.FlyoutIsPresented = false;
+                shell.FlyoutIsPresented = false;
                 await _authService.DeleteUserAccountAsync();
                 await BuildMenuItemsAsync();
             }
@@ -88,8 +86,6 @@
 
         private async Task BuildMenuItemsAsync()
         {
-
-             
             if(!shell.Items.Any(i => AUTOMATION_ID_MENU_PRIVACY_POLICY.Equals(i.AutomationId))) {
                 MenuItem menuPrivacyPolicy = new() { Text = "Privacy Policy", AutomationId = AUTOMATION_ID_MENU_PRIVACY_POLICY };
                 menuPrivacyPolicy.Clicked += MenuPrivacyPolicy_Clicked;
@@ -102,8 +98,6 @@
                 menuTermsOfService.Clicked += MenuTermsOfService_Clicked;
                 shell.Items.Add(menuTermsOfService);
             }
-
-                
 
             if (!shell.Items.Any(i => AUTOMATION_ID_MENU_USER_DATA_DELETION.Equals(i.AutomationId)))
             {

@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using Dhrutara.WriteWise.App.LocalStorage;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -8,11 +9,21 @@ namespace Dhrutara.WriteWise.App.Services.Content
     {
         private readonly HttpClient _httpClient;
         private readonly AuthService _authService;
-        public ContentService(AuthService authService, HttpClient httpClient)
+        private readonly LocalContentProvider _localContent;
+        public ContentService(AuthService authService, HttpClient httpClient, LocalContentProvider localContent)
         {
             _authService = authService;
             _httpClient = httpClient;
+            _localContent = localContent;
+
+            SupportedContentTypes =  _localContent.SupportedContentTypes;
+            SupportedContentCategories = _localContent.SupportedContentCategories;
+            SupportedRelationships = _localContent.SupportedRelationships;
         }
+
+        public IEnumerable<ContentType> SupportedContentTypes { get; init; }
+        public IEnumerable<ContentCategory> SupportedContentCategories { get; init; }
+        public IEnumerable<Relationship> SupportedRelationships { get; init; }
 
         public async Task<string[]> GetContentAsync(ApiRequest request, CancellationToken cancellationToken)
         {
@@ -22,7 +33,7 @@ namespace Dhrutara.WriteWise.App.Services.Content
             }
             else
             {
-                return await GetLocalContentAsync(request, cancellationToken).ConfigureAwait(false);
+                return GetLocalContentAsync(request);
             }
         }
 
@@ -57,10 +68,9 @@ namespace Dhrutara.WriteWise.App.Services.Content
             return Array.Empty<string>();
         }
 
-        private async Task<string[]> GetLocalContentAsync(ApiRequest request, CancellationToken cancellationToken)
+        private string[] GetLocalContentAsync(ApiRequest request)
         {
-            await Task.Yield();
-            return Array.Empty<string>();
+            return _localContent.GetContent(request.Type, request.Category, request.To);
         }
 
         private class LowerCaseNamingPolicy : JsonNamingPolicy

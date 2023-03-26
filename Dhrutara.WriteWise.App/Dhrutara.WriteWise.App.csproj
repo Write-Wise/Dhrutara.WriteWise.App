@@ -67,7 +67,6 @@
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.Identity.Client" Version="4.49.1" />
-	  <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
 	</ItemGroup>
 
@@ -88,10 +87,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Helpers\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Dhrutara.WriteWise.App.Providers\Dhrutara.WriteWise.App.Providers.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup Label="MauiAppAccelerator">

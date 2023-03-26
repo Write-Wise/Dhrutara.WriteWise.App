@@ -1,14 +1,14 @@
 ﻿namespace Dhrutara.WriteWise.App.Models
 {
-    public class EnumToType
+    public class SelectItem
     {
-        public EnumToType(string name, string display)
+        public SelectItem(string name, string display)
         {
             Name = name;
             Display = display;
         }
 
-        public EnumToType(Enum enumValue) : this(enumValue.ToString(), enumValue.GetDisplayName())
+        public SelectItem(Enum enumValue) : this(enumValue.ToString(), enumValue.GetDisplayName())
         {
         }
         public string Name { get; set; }

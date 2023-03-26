@@ -1,4 +1,5 @@
-﻿using Dhrutara.WriteWise.App.Services.Content;
+﻿using Dhrutara.WriteWise.App.LocalStorage;
+using Dhrutara.WriteWise.App.Services.Content;
 
 namespace Dhrutara.WriteWise.App.Views
 {
@@ -7,14 +8,16 @@ namespace Dhrutara.WriteWise.App.Views
         private readonly MainViewModel _viewModel;
         private readonly ContentService _contentService;
         private readonly AuthService _authService;
+        private readonly LocalContentProvider _localContentProvider;
 
-        public MainPage(MainViewModel viewModel, ContentService contentService, AuthService authService)
+        public MainPage(MainViewModel viewModel, ContentService contentService, AuthService authService, LocalContentProvider localContentProvider)
         {
             InitializeComponent();
             BindingContext = viewModel;
             _viewModel = viewModel;
             _contentService = contentService;
             _authService = authService;
+            _localContentProvider = localContentProvider;
 
             TrySignInAsync(CancellationToken.None).SafeFireAndForget();
         }
@@ -35,19 +38,33 @@ namespace Dhrutara.WriteWise.App.Views
             }
             else
             {
-                await ShowContentChoicesPopupAsync();
+                await ShowContentChoicesPopupAsync(CancellationToken.None);
             }
             
         }
 
         private async void OnSelectContentChoicesClicked(object sender, EventArgs e)
         {
-            await ShowContentChoicesPopupAsync();
+            await ShowContentChoicesPopupAsync(CancellationToken.None);
         }
 
-        private async Task ShowContentChoicesPopupAsync()
+        private async Task ShowContentChoicesPopupAsync(CancellationToken cancellationToken)
         {
-            SelectContentChoicesView popup = new(_viewModel.NewContentOptions)
+            SelectContentChoicesViewModel input = new(_viewModel.NewContentOptions);
+
+            UserContext? user = await _authService.SigninAsync(false, cancellationToken);
+
+            input.ContentTypes = user != null 
+                ? GetEnumToTypes<ContentType>(true, false)
+                : GetEnumToTypes<ContentType>(true, false, (x) => _localContentProvider.SupportedContentTypes.Contains(x));
+            input.ContentCategories = user != null
+                ? GetEnumToTypes<ContentCategory>(true, false)
+                : GetEnumToTypes<ContentCategory>(true, false, (x) => _localContentProvider.SupportedContentCategories.Contains(x));
+            input.ReceiverRelationships = user != null
+                ? GetEnumToTypes<Relationship>(true, false)
+                : GetEnumToTypes<Relationship>(true, false, (x) => _localContentProvider.SupportedRelationships.Contains(x));
+
+            SelectContentChoicesView popup = new(input)
             {
                 CanBeDismissedByTappingOutsideOfPopup = false,
                 Color = new Color(255, 255, 255)
@@ -86,7 +103,7 @@ namespace Dhrutara.WriteWise.App.Views
             ApiRequest request = new()
             {
                 Category = options.Category,
-                From = options.Receiver,
+                To = options.Receiver,
                 Type = options.Type
             };
 
@@ -97,6 +114,22 @@ namespace Dhrutara.WriteWise.App.Views
         {
             UserContext? userContext = await _authService.SigninAsync(false, cancellationToken);
             _viewModel.WelcomeMessage = $"Hi {userContext?.GivenName ?? "there"}, welcome to Write Wise!";
+        }
+
+        private static IEnumerable<SelectItem> GetEnumToTypes<TEnum>(bool sort = false, bool sortDesc = false, Func<TEnum, bool>? filter = null) where TEnum : Enum
+        {
+            Func<TEnum, bool> internalFilter = filter ?? ((x) => true);
+
+            IEnumerable<SelectItem> items = Enum
+                .GetValues(typeof(TEnum))
+                .Cast<TEnum>()
+                .Where(t => !"None".Equals(t.ToString()) && internalFilter(t))
+                .Select(t => new SelectItem(t));
+
+            return sort
+                ? sortDesc ? items.OrderByDescending(t => t.Name) : items.OrderBy(t => t.Name)
+                : items;
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Dhrutara.WriteWise.App.Providers.Constants
+﻿namespace Dhrutara.WriteWise.App.Constants
 {
     public enum ContentType
     {
